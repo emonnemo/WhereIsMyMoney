@@ -1,5 +1,6 @@
 package com.emonnemo.whereismymoney.Activity
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,19 +12,22 @@ import com.emonnemo.whereismymoney.R
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_add_transaction.*
+import java.util.*
 
 class AddTransactionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     var itemLists = Transaction.getTypeList()
 
-    var typeSpinner: Spinner? = null
-    var typeInput: Int = 0
+    private var typeSpinner: Spinner? = null
+    private var typeInput: Int = 0
+    private var dateValue: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
 
         // Initiate the value
+        val dateInput = findViewById<EditText>(R.id.add_transaction_date_input)
         val amountInput = findViewById<EditText>(R.id.add_transaction_amount_input)
         typeSpinner = this.add_transaction_type_spinner
         val descriptionInput = findViewById<EditText>(R.id.add_transaction_description_input)
@@ -38,25 +42,45 @@ class AddTransactionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
         typeSpinner!!.onItemSelectedListener = this
 
         // Create an ArrayAdapter using a simple spinner layout and items array
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, itemLists)
+        val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, itemLists)
         // Set layout to use when the list of choices appear
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         // Set Adapter to Spinner
-        typeSpinner!!.adapter = aa
+        typeSpinner!!.adapter = arrayAdapter
+
+        // Set the date picker handler
+        dateInput.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+
+            val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                // Display Selected date in textbox
+                calendar.set(year, monthOfYear, dayOfMonth)
+                dateInput.setText(android.text.format.DateFormat.format("EEEE, dd MMMM yyyy", calendar))
+                dateValue = String.format("%d-%d-%d", dayOfMonth, monthOfYear, year)
+            }, year, month, day)
+            datePickerDialog.show()
+        }
 
         // Set the submit button handler
         val submitButton = findViewById<Button>(R.id.add_transaction_submit_button)
         submitButton.setOnClickListener {
             try {
+                if (dateValue == "")
+                    throw Exception()
                 val amountValue: Long = amountInput.text.toString().toLong()
                 val descriptionValue: String = descriptionInput.text.toString()
-                val transaction = Transaction("11-11-2011", typeInput, amountValue, descriptionValue)
+                val transaction = Transaction(dateValue, typeInput, amountValue, descriptionValue)
 
                 // Apply the changes to shared prefs
                 val editor = prefs!!.edit()
                 transactionList.add(transaction)
                 editor.putString("transaction_list", gson.toJson(transactionList))
                 editor.apply()
+                onBackPressed()
             } catch (e: Exception) {
                 Toast.makeText(this, "Please fill all the form before submitting.", Toast.LENGTH_SHORT).show()
             }
