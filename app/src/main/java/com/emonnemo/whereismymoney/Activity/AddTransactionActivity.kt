@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.format.DateFormat
 import android.view.View
 import android.widget.*
 import com.emonnemo.whereismymoney.Model.Transaction
@@ -60,7 +61,7 @@ class AddTransactionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
                 // Display Selected date in textbox
                 calendar.set(year, monthOfYear, dayOfMonth)
                 dateInput.setText(android.text.format.DateFormat.format("EEEE, dd MMMM yyyy", calendar))
-                dateValue = String.format("%d-%d-%d", dayOfMonth, monthOfYear, year)
+                dateValue = DateFormat.format("dd-MM-yyyy", calendar).toString()
             }, year, month, day)
             datePickerDialog.show()
         }

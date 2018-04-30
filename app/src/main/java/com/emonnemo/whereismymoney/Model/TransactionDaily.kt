@@ -1,11 +1,10 @@
 package com.emonnemo.whereismymoney.Model
 
 /**
- * Created by dikak_000 on 4/30/2018.
+ * Created by dikak_000 on 5/1/2018.
  */
 
-data class Transaction(val date: String, val type: Int, val amount: Long, val description: String) {
-
+data class TransactionDaily(val date: String, val type: Int, var amount: Long, val transactionList: ArrayList<Transaction>) {
 //    var date: String by Delegates.notNull()
 //    var type: Int
 //    var amount: Long
@@ -18,13 +17,18 @@ data class Transaction(val date: String, val type: Int, val amount: Long, val de
 //        this.description = description_
 //    }
 
+    fun addTransaction(transaction: Transaction) {
+        transactionList.add(transaction)
+        amount += transaction.amount
+    }
+    fun removeTransaction(transaction: Transaction) {
+        transactionList.remove(transaction)
+        amount -= transaction.amount
+    }
     fun getTypeString() = Transaction.getType(type)
 
     companion object {
         val typeLists = arrayOf("Transportation", "Food", "Others")
-
-        fun getTypeListSize() = typeLists.size
-        fun getTypeList() = typeLists
         fun getType(position: Int) = typeLists[position]
     }
 

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Where Is My Money</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Where Is My Money</string>
+    <string name="yellow_hint"><![CDATA[<30000]]></string>
+    <string name="orange_hint">30000 - 60000</string>
+    <string name="red_hint"><![CDATA[>=60000]]></string>
+    <string name="dot">●</string>
+    <string name="swipe_month_hint">Swipe to change month</string>
 </resources>
