@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.emonnemo.whereismymoney.Activity.AddTransactionActivity">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/add_transaction_amount_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/add_transaction_amount_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Amount (Rp)"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="number"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/add_transaction_type_spinner_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:text="Type"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_transaction_amount_input_layout" />
+
+    <Spinner
+        android:id="@+id/add_transaction_type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_transaction_type_spinner_text" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/add_transaction_description_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/add_transaction_type_spinner">
+
+        <EditText
+            android:id="@+id/add_transaction_description_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:imeOptions="flagNoExtractUi" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/add_transaction_submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_transaction_description_input_layout"
+        android:text="Submit" />
+
+
+</android.support.constraint.ConstraintLayout>
